@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<id>Kumnaa:AllowPrimaryGroupSelect</id>
+	<name>Allow Primary Group Select</name>
+	<version>1.0.0</version>
+	<type>modification</type>
+	
+	<install>
+		<readme>readme.txt</readme>
+		<modification>install.xml</modification>
+	</install>
+	
+	<uninstall>
+		<modification reverse="true">install.xml</modification>
+	</uninstall>
+</package-info>

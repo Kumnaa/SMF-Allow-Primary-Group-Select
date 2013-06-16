@@ -1,0 +1,59 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>Kumnaa:AllowPrimaryGroupSelect</id>
+	<version>1.0.0</version>
+	
+	<file name="$sourcedir/Profile.php">
+		<operation>
+			<search position="replace"><![CDATA[					'enabled' => !empty($modSettings['show_group_membership']) && $context['user']['is_owner'],]]></search>
+			<add><![CDATA[					'enabled' => true,]]></add>
+		</operation>
+	</file>
+	
+	<file name="$sourcedir/Profile-Modify.php">
+	
+		<!-- groupMembership -->
+		<operation>
+			<search position="replace"><![CDATA[
+		// Can they edit their primary group?
+		if (($row['id_group'] == $context['primary_group'] && $row['group_type'] > 1) || ($row['hidden'] != 2 && $context['primary_group'] == 0 && in_array($row['id_group'], $groups)))
+			$context['can_edit_primary'] = true;]]></search>
+			<add><![CDATA[
+				$context['can_edit_primary'] = true;]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[
+		// If they can't manage (protected) groups, and it's not publically joinable or already assigned, they can't see it.
+		if (((!$context['can_manage_protected'] && $row['group_type'] == 1) || (!$context['can_manage_membergroups'] && $row['group_type'] == 0)) && $row['id_group'] != $context['primary_group'])
+			continue;]]></search>
+			<add><![CDATA[
+		// If they can't manage (protected) groups, and it's not publically joinable or already assigned, they can't see it.
+		/*if (((!$context['can_manage_protected'] && $row['group_type'] == 1) || (!$context['can_manage_membergroups'] && $row['group_type'] == 0)) && $row['id_group'] != $context['primary_group'])
+			continue;*/]]></add>
+		</operation>
+		
+		<!-- groupMembership2 -->
+		<operation>
+			<search position="replace"><![CDATA[	if (!$context['user']['is_owner'] || empty($modSettings['show_group_membership']))]]></search>
+			<add><![CDATA[	if (!$context['user']['is_owner'])]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[	$canChangePrimary = $old_profile['id_group'] == 0 ? 1 : 0;]]></search>
+			<add><![CDATA[	$canChangePrimary = 1;]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[
+		// If this is the one we are acting on, can we even act?
+		if ((!$context['can_manage_protected'] && $row['group_type'] == 1) || (!$context['can_manage_membergroups'] && $row['group_type'] == 0))
+			$canChangePrimary = false;]]></search>
+			<add><![CDATA[
+		// If this is the one we are acting on, can we even act?
+		/*if ((!$context['can_manage_protected'] && $row['group_type'] == 1) || (!$context['can_manage_membergroups'] && $row['group_type'] == 0))
+			$canChangePrimary = false;*/]]></add>
+		</operation>
+	</file>
+</modification>
