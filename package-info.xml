@@ -7,7 +7,6 @@
 	<type>modification</type>
 	
 	<install>
-		<readme>readme.txt</readme>
 		<modification>install.xml</modification>
 	</install>
 	
